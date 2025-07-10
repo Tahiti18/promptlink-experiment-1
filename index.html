@@ -1201,39 +1201,59 @@
         let selectedAdvisorMode = null;
 
         const AGENT_CONFIG = {
-            'openai/gpt-4-turbo': { name: 'OpenAI GPT-4 Turbo', endpoint: 'api/chat' },
-            'anthropic/claude-3.5-sonnet': { name: 'Anthropic Claude 3.5 Sonnet', endpoint: 'api/chat' },
-            'google/gemini-pro': { name: 'Google Gemini Pro', endpoint: 'api/chat' },
-            'meta/llama-3.1-8b': { name: 'Meta Llama 3.1 8B', endpoint: 'api/chat' },
-            'mistral/mistral-large': { name: 'Mistral Large', endpoint: 'api/chat' }
-        };
+    "chatgpt": {
+        name: "OpenAI GPT-4 Turbo",
+        endpoint: "api/chat",
+        model: "gpt-4-turbo"
+    },
+    "deepseek": {
+        name: "DeepSeek R1",
+        endpoint: "api/chat",
+        model: "deepseek"
+    },
+    "minmax": {
+        name: "MinMax M1",
+        endpoint: "api/chat",
+        model: "minmax"
+    },
+    "llama": {
+        name: "Meta Llama 3.3",
+        endpoint: "api/chat",
+        model: "llama-3.3"
+    },
+    "mistral": {
+        name: "Mistral Large",
+        endpoint: "api/chat",
+        model: "mistral-large"
+    }
+};
 
-        const ADVISOR_RECOMMENDATIONS = {
-            'discussion': {
-                agentA: 'openai/gpt-4-turbo',
-                agentB: 'anthropic/claude-3.5-sonnet'
-            },
-            'brainstorm': {
-                agentA: 'anthropic/claude-3.5-sonnet',
-                agentB: 'google/gemini-pro'
-            },
-            'debate': {
-                agentA: 'openai/gpt-4-turbo',
-                agentB: 'anthropic/claude-3.5-sonnet'
-            },
-            'strategy': {
-                agentA: 'openai/gpt-4-turbo',
-                agentB: 'meta/llama-3.1-8b'
-            },
-            'technical': {
-                agentA: 'anthropic/claude-3.5-sonnet',
-                agentB: 'mistral/mistral-large'
-            },
-            'compliance': {
-                agentA: 'openai/gpt-4-turbo',
-                agentB: 'anthropic/claude-3.5-sonnet'
-            }
-        };
+const ADVISOR_RECOMMENDATIONS = {
+    'discussion': {
+        agentA: 'chatgpt',
+        agentB: 'deepseek'
+    },
+    'brainstorm': {
+        agentA: 'deepseek',
+        agentB: 'llama'
+    },
+    'debate': {
+        agentA: 'chatgpt',
+        agentB: 'mistral'
+    },
+    'strategy': {
+        agentA: 'chatgpt',
+        agentB: 'llama'
+    },
+    'technical': {
+        agentA: 'deepseek',
+        agentB: 'mistral'
+    },
+    'compliance': {
+        agentA: 'chatgpt',
+        agentB: 'minmax'
+    }
+};
 
         document.addEventListener('DOMContentLoaded', () => {
             initializeApp();
@@ -1791,6 +1811,7 @@
     </script>
 </body>
 </html>
+
 
 
 
