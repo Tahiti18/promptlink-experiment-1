@@ -1363,26 +1363,38 @@ const ADVISOR_RECOMMENDATIONS = {
         }
 
         function applyRecommendations() {
-            if (!selectedAdvisorMode) {
-                alert('Please select an advisor mode first.');
-                return;
-            }
-            
-            const recommendations = ADVISOR_RECOMMENDATIONS[selectedAdvisorMode];
-            if (recommendations) {
-                document.getElementById('agent-a-select').value = recommendations.agentA;
-                document.getElementById('agent-b-select').value = recommendations.agentB;
-                
-                handleAgentSelection('a');
-                handleAgentSelection('b');
-                
-                const agentAName = AGENT_CONFIG[recommendations.agentA]?.name;
-                const agentBName = AGENT_CONFIG[recommendations.agentB]?.name;
-                
-                addMessageToConversation('system', 'AI Advisor', 
-                    `Recommended agents for ${selectedAdvisorMode} mode: ${agentAName} and ${agentBName}`);
-            }
+    if (!selectedAdvisorMode) {
+        alert('Please select an advisor mode first.');
+        return;
+    }
+    
+    const recommendations = ADVISOR_RECOMMENDATIONS[selectedAdvisorMode];
+    if (recommendations) {
+        // Set BOTH dropdown values using ChatGPT's approach
+        const agentASelect = document.getElementById('agent-a-select');
+        const agentBSelect = document.getElementById('agent-b-select');
+
+        if (recommendations.agentA) {
+            agentASelect.value = recommendations.agentA;
+            agentASelect.dispatchEvent(new Event('change'));
         }
+
+        if (recommendations.agentB) {
+            agentBSelect.value = recommendations.agentB;
+            agentBSelect.dispatchEvent(new Event('change'));
+        }
+        
+        // Trigger the selection handlers
+        handleAgentSelection('a');
+        handleAgentSelection('b');
+        
+        const agentAName = AGENT_CONFIG[recommendations.agentA]?.name;
+        const agentBName = AGENT_CONFIG[recommendations.agentB]?.name;
+        
+        addMessageToConversation('system', 'AI Advisor', 
+            `Recommended agents for ${selectedAdvisorMode} mode: ${agentAName} and ${agentBName}`);
+    }
+}
 
         async function startSession() {
             const agentA = document.getElementById('agent-a-select').value;
@@ -1811,6 +1823,7 @@ const ADVISOR_RECOMMENDATIONS = {
     </script>
 </body>
 </html>
+
 
 
 
