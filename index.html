@@ -976,46 +976,46 @@
         </section>
 
         <section class="grid-2">
-            <div class="card agent-container" id="agent-a-container">
-                <div class="agent-header">
-                    <div class="agent-title">
-                        <i class="fas fa-robot"></i>
-                        Agent A
-                    </div>
-                    <div class="agent-status" id="agent-a-status">Ready</div>
-                </div>
-                
-                <div class="form-group">
-                    <select id="agent-a-select" class="form-select">
-                        <option value="">Select Agent A...</option>
-                        <option value="openai/gpt-4-turbo">OpenAI GPT-4 Turbo</option>
-                        <option value="anthropic/claude-3.5-sonnet">Anthropic Claude 3.5 Sonnet</option>
-                        <option value="google/gemini-pro">Google Gemini Pro</option>
-                        <option value="meta/llama-3.1-8b">Meta Llama 3.1 8B</option>
-                        <option value="mistral/mistral-large">Mistral Large</option>
-                    </select>
-                </div>
+    <div class="card agent-container" id="agent-a-container">
+        <div class="agent-header">
+            <div class="agent-title">
+                <i class="fas fa-robot"></i>
+                Agent A
+            </div>
+            <div class="agent-status" id="agent-a-status">Ready</div>
+        </div>
+        
+        <div class="form-group">
+            <select id="agent-a-select" class="form-select">
+                <option value="">Select Agent A...</option>
+                <option value="chatgpt">OpenAI GPT-4 Turbo</option>
+                <option value="deepseek">DeepSeek R1</option>
+                <option value="minmax">MinMax M1</option>
+                <option value="llama">Meta Llama 3.3</option>
+                <option value="mistral">Mistral Large</option>
+            </select>
+        </div>
 
-                <div class="agent-toolbar">
-                    <button class="toolbar-btn" title="Home" onclick="resetAgent('a')">
-                        <i class="fas fa-home"></i>
-                    </button>
-                    <button class="toolbar-btn" title="Refresh" onclick="refreshAgent('a')">
-                        <i class="fas fa-redo"></i>
-                    </button>
-                    <button class="toolbar-btn" title="Copy" onclick="copyResponse('a')">
-                        <i class="fas fa-copy"></i>
-                    </button>
-                    <button class="toolbar-btn" title="Edit" onclick="editResponse('a')">
-                        <i class="fas fa-edit"></i>
-                    </button>
-                    <button class="toolbar-btn" title="Download" onclick="downloadResponse('a')">
-                        <i class="fas fa-download"></i>
-                    </button>
-                    <button class="toolbar-btn" title="Settings" onclick="showSettings('a')">
-                        <i class="fas fa-cog"></i>
-                    </button>
-                </div>
+        <div class="agent-toolbar">
+            <button class="toolbar-btn" title="Home" onclick="resetAgent('a')">
+                <i class="fas fa-home"></i>
+            </button>
+            <button class="toolbar-btn" title="Refresh" onclick="refreshAgent('a')">
+                <i class="fas fa-redo"></i>
+            </button>
+            <button class="toolbar-btn" title="Copy" onclick="copyResponse('a')">
+                <i class="fas fa-copy"></i>
+            </button>
+            <button class="toolbar-btn" title="Edit" onclick="editResponse('a')">
+                <i class="fas fa-edit"></i>
+            </button>
+            <button class="toolbar-btn" title="Download" onclick="downloadResponse('a')">
+                <i class="fas fa-download"></i>
+            </button>
+            <button class="toolbar-btn" title="Settings" onclick="showSettings('a')">
+                <i class="fas fa-cog"></i>
+            </button>
+        </div>
 
                 <div class="agent-response" id="agent-a-response">
                     <div class="empty-state">
@@ -1791,4 +1791,6 @@
     </script>
 </body>
 </html>
+
+
 
