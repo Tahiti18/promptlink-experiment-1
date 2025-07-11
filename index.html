@@ -800,6 +800,295 @@
             }
         }
     </style>
+<!-- Add these to your HTML head section -->
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/index.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github-dark.min.css">
+
+<script>
+// ======= COMPREHENSIVE FORMATTING SYSTEM =======
+
+// Configure marked for better parsing
+marked.setOptions({
+    highlight: function(code, lang) {
+        if (lang && hljs.getLanguage(lang)) {
+            return hljs.highlight(code, { language: lang }).value;
+        }
+        return hljs.highlightAuto(code).value;
+    },
+    breaks: true,
+    gfm: true
+});
+
+// Enhanced emoji injection system
+function enhanceWithEmojis(htmlOutput, context = "default") {
+    const emojiSets = {
+        strategy: ["🎯", "📈", "🚀", "💡", "⚡", "🔥", "📊", "🏆"],
+        technical: ["🔧", "⚙️", "💻", "🛠️", "🔬", "📱", "⚡", "🖥️"],
+        creative: ["🎨", "✨", "🌟", "💫", "🎭", "🌈", "💎", "🎪"],
+        marketing: ["📣", "💰", "🤝", "📊", "🛒", "💸", "📈", "🎯"],
+        brainstorm: ["💡", "🧠", "⚡", "🌟", "🚀", "💭", "🔮", "✨"],
+        debate: ["⚔️", "🥊", "🎭", "🔥", "💪", "🎯", "⚖️", "🗣️"],
+        compliance: ["⚖️", "🛡️", "✅", "📋", "🔒", "🎯", "📊", "🔍"],
+        default: ["🚀", "🔥", "💡", "✅", "🎯", "⚡", "💪", "🌟"]
+    };
+    
+    const emojis = emojiSets[context] || emojiSets.default;
+
+    // Inject emojis at start of list items
+    htmlOutput = htmlOutput.replace(/<li>/g, () => {
+        return `<li>${emojis[Math.floor(Math.random() * emojis.length)]} `;
+    });
+
+    // Inject emojis at start of headers
+    htmlOutput = htmlOutput.replace(/<(h[1-6])>(.*?)<\/\1>/g, (match, tag, content) => {
+        return `<${tag}>${emojis[Math.floor(Math.random() * emojis.length)]} ${content}</${tag}>`;
+    });
+
+    // Add emojis to important paragraphs starting with keywords
+    const keywordEmojis = {
+        'Important': '⚠️',
+        'Note': '📝',
+        'Tip': '💡',
+        'Warning': '🚨',
+        'Example': '📋',
+        'Result': '🎯',
+        'Solution': '✅',
+        'Problem': '❌',
+        'Key': '🔑',
+        'Summary': '📊'
+    };
+
+    Object.entries(keywordEmojis).forEach(([keyword, emoji]) => {
+        const regex = new RegExp(`<p>\\s*\\*\\*${keyword}`, 'gi');
+        htmlOutput = htmlOutput.replace(regex, `<p>${emoji} **${keyword}`);
+    });
+
+    return htmlOutput;
+}
+
+// Add professional styling and animations
+function addProfessionalStyling(element) {
+    element.style.cssText += `
+        line-height: 1.7;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        color: var(--text-primary);
+        animation: fadeInUp 0.5s ease-out;
+    `;
+}
+
+// Create fade-in animation
+function addFadeInAnimation() {
+    if (!document.getElementById('response-animations')) {
+        const style = document.createElement('style');
+        style.id = 'response-animations';
+        style.textContent = `
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            
+            .agent-response h1, .agent-response h2, .agent-response h3,
+            .agent-response h4, .agent-response h5, .agent-response h6 {
+                color: var(--logo-primary);
+                margin: 20px 0 12px 0;
+                font-weight: 600;
+                text-shadow: 0 0 8px rgba(0, 180, 216, 0.2);
+            }
+            
+            .agent-response p {
+                margin-bottom: 16px;
+                line-height: 1.7;
+            }
+            
+            .agent-response ul, .agent-response ol {
+                padding-left: 24px;
+                margin-bottom: 16px;
+            }
+            
+            .agent-response li {
+                margin-bottom: 8px;
+                line-height: 1.6;
+            }
+            
+            .agent-response code {
+                background: rgba(0, 180, 216, 0.15);
+                color: var(--logo-accent);
+                padding: 3px 8px;
+                border-radius: 6px;
+                font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+                font-size: 0.9em;
+                border: 1px solid rgba(0, 180, 216, 0.2);
+            }
+            
+            .agent-response pre {
+                background: rgba(15, 23, 42, 0.9);
+                border: 1px solid var(--border-color);
+                border-radius: 12px;
+                padding: 16px;
+                margin: 16px 0;
+                overflow-x: auto;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            }
+            
+            .agent-response pre code {
+                background: transparent;
+                border: none;
+                padding: 0;
+                color: #e2e8f0;
+            }
+            
+            .agent-response blockquote {
+                border-left: 4px solid var(--logo-primary);
+                background: rgba(0, 180, 216, 0.05);
+                padding: 16px 20px;
+                margin: 16px 0;
+                border-radius: 0 8px 8px 0;
+                font-style: italic;
+            }
+            
+            .agent-response table {
+                width: 100%;
+                border-collapse: collapse;
+                margin: 16px 0;
+                background: rgba(15, 23, 42, 0.6);
+                border-radius: 8px;
+                overflow: hidden;
+            }
+            
+            .agent-response th, .agent-response td {
+                padding: 12px 16px;
+                text-align: left;
+                border-bottom: 1px solid var(--border-color);
+            }
+            
+            .agent-response th {
+                background: rgba(0, 180, 216, 0.2);
+                color: var(--logo-primary);
+                font-weight: 600;
+            }
+            
+            .agent-response strong {
+                color: var(--logo-accent);
+                font-weight: 600;
+            }
+            
+            .agent-response em {
+                color: var(--text-secondary);
+                font-style: italic;
+            }
+            
+            .typing-indicator {
+                display: inline-flex;
+                align-items: center;
+                gap: 4px;
+                color: var(--text-muted);
+                font-style: italic;
+            }
+            
+            .typing-dots {
+                display: inline-flex;
+                gap: 2px;
+            }
+            
+            .typing-dot {
+                width: 4px;
+                height: 4px;
+                background: var(--logo-primary);
+                border-radius: 50%;
+                animation: typing 1.4s infinite;
+            }
+            
+            .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+            .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+            
+            @keyframes typing {
+                0%, 60%, 100% { opacity: 0.3; }
+                30% { opacity: 1; }
+            }
+        `;
+        document.head.appendChild(style);
+    }
+}
+
+// Show typing indicator
+function showTypingIndicator(agent) {
+    const responseElement = document.getElementById(`agent-${agent}-response`);
+    responseElement.innerHTML = `
+        <div class="typing-indicator">
+            <span>Thinking</span>
+            <div class="typing-dots">
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+            </div>
+        </div>
+    `;
+}
+
+// ======= MAIN FORMATTING FUNCTION =======
+function updateAgentResponse(agent, response) {
+    // Add CSS animations if not already added
+    addFadeInAnimation();
+    
+    // Process the response
+    let htmlOutput = marked.parse(response);
+    
+    // Get context from selected advisor mode
+    const context = selectedAdvisorMode || 'default';
+    
+    // Enhance with emojis
+    htmlOutput = enhanceWithEmojis(htmlOutput, context);
+    
+    // Get the response element
+    const responseElement = document.getElementById(`agent-${agent}-response`);
+    
+    // Apply the formatted content
+    responseElement.innerHTML = htmlOutput;
+    
+    // Add professional styling
+    addProfessionalStyling(responseElement);
+    
+    // Scroll to show new content
+    responseElement.scrollTop = responseElement.scrollHeight;
+}
+
+// ======= ENHANCED AGENT STATUS UPDATES =======
+function updateAgentStatus(agent, status) {
+    const statusElement = document.getElementById(`agent-${agent}-status`);
+    const responseElement = document.getElementById(`agent-${agent}-response`);
+    
+    statusElement.className = `agent-status ${status}`;
+    
+    switch(status) {
+        case 'working':
+            statusElement.textContent = 'Thinking...';
+            showTypingIndicator(agent);
+            break;
+        case 'ready':
+            statusElement.textContent = 'Ready';
+            break;
+        case 'error':
+            statusElement.textContent = 'Error';
+            break;
+        default:
+            statusElement.textContent = status.charAt(0).toUpperCase() + status.slice(1);
+    }
+}
+
+// Initialize the formatting system
+document.addEventListener('DOMContentLoaded', () => {
+    addFadeInAnimation();
+    console.log('🚀 Professional formatting system loaded!');
+});
+</script>
+
 </head>
 <body>
     <nav class="navbar">
@@ -1451,12 +1740,6 @@ const ADVISOR_RECOMMENDATIONS = {
             mode: selectedAdvisorMode || 'general'
         };
 
-        document.body.insertAdjacentHTML('beforeend', `
-          <div style="background:#222; color:#0f0; font-size:14px; padding:8px; margin:8px 0;">
-            🚀 DEBUG PAYLOAD:<br>${JSON.stringify(payload)}
-          </div>
-        `);
-        
         const response = await fetch(`${API_BASE_URL}/api/chat`, {
             method: 'POST',
             headers: { 
@@ -1822,6 +2105,7 @@ const ADVISOR_RECOMMENDATIONS = {
     </script>
 </body>
 </html>
+
 
 
 
