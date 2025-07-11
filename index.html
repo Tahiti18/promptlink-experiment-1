@@ -1037,12 +1037,11 @@
                 
                 <div class="form-group">
                     <select id="agent-b-select" class="form-select">
-                        <option value="">Select Agent B...</option>
-                        <option value="openai/gpt-4-turbo">OpenAI GPT-4 Turbo</option>
-                        <option value="anthropic/claude-3.5-sonnet">Anthropic Claude 3.5 Sonnet</option>
-                        <option value="google/gemini-pro">Google Gemini Pro</option>
-                        <option value="meta/llama-3.1-8b">Meta Llama 3.1 8B</option>
-                        <option value="mistral/mistral-large">Mistral Large</option>
+                        <option value="chatgpt">OpenAI GPT-4 Turbo</option>
+<option value="deepseek">DeepSeek R1</option>
+<option value="minmax">MinMax M1</option>
+<option value="llama">Meta Llama 3.3</option>
+<option value="mistral">Mistral Large</option>
                     </select>
                 </div>
 
@@ -1370,7 +1369,7 @@ const ADVISOR_RECOMMENDATIONS = {
     
     const recommendations = ADVISOR_RECOMMENDATIONS[selectedAdvisorMode];
     if (recommendations) {
-        // Set BOTH dropdown values using ChatGPT's approach
+        // Set BOTH dropdown values
         const agentASelect = document.getElementById('agent-a-select');
         const agentBSelect = document.getElementById('agent-b-select');
 
@@ -1823,6 +1822,7 @@ const ADVISOR_RECOMMENDATIONS = {
     </script>
 </body>
 </html>
+
 
 
 
