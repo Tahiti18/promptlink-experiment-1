@@ -995,26 +995,17 @@ Copy    <script>
 
         // ======= EMOJI ENHANCEMENT SYSTEM =======
         function enhanceWithEmojis(htmlOutput, context = "default") {
-            const emojiSets = {
-                strategy: ["🎯", "📈", "🚀", "💡", "⚡"],
-                technical: ["🔧", "⚙️", "💻", "🛠️", "🔬"],
-                creative: ["🎨", "✨", "🌟", "💫", "🎭"],
-                brainstorm: ["💡", "🧠", "⚡", "🌟", "🚀"],
-                debate: ["⚔️", "🥊", "🎭", "🔥", "💪"],
-                compliance: ["⚖️", "🛡️", "✅", "📋", "🔒"],
-                discussion: ["💬", "🤝", "🔄", "📊", "🎯"],
-                default: ["🚀", "🔥", "💡", "✅", "🎯"]
+            // Add emojis to important paragraphs starting with keywords
+            const keywordEmojis = {
+                'Tip': '💡',
+                'Example': '📋',
+                'Solution': '✅',
+                'Summary': '📊'
             };
-            const emojis = emojiSets[context] || emojiSets.default;
 
-            // Inject emojis at start of list items
-            htmlOutput = htmlOutput.replace(/<li>/g, () => {
-                return `<li>${emojis[Math.floor(Math.random() * emojis.length)]} `;
-            });
-
-            // Inject emojis at start of headers
-            htmlOutput = htmlOutput.replace(/<(h[1-4])>(.*?)<\/\1>/g, (match, tag, content) => {
-                return `<${tag}>${emojis[Math.floor(Math.random() * emojis.length)]} ${content}</${tag}>`;
+            Object.entries(keywordEmojis).forEach(([keyword, emoji]) => {
+                const regex = new RegExp(`<p>\\s*\\*\\*${keyword}`, 'gi');
+                htmlOutput = htmlOutput.replace(regex, `<p>${emoji} **${keyword}`);
             });
 
             return htmlOutput;
@@ -2330,7 +2321,7 @@ Total messages: ${messageCount}
         function enhanceAccessibility() {
             // Add ARIA labels and better accessibility
             document.querySelectorAll('.btn').forEach(btn => {
-                if (!btn.getAttribute('aria-label')) {https://promptlink-experiment-1.netlify.app/
+                if (!btn.getAttribute('aria-label')) {
                     btn.setAttribute('aria-label', btn.textContent.trim());
                 }
             });
@@ -2385,5 +2376,3 @@ Total messages: ${messageCount}
     </script>
 </body>
 </html>
-
-
