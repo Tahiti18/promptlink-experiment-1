@@ -1847,11 +1847,11 @@ Copy    <script>
             } catch (error) {
                 console.error('Session start error:', error);
                 alert(`Failed to start session: ${error.message}`);
-                sessionActive = false;
                 updateSessionControls(false);
                 updateSessionStatus('Error');
             }
         }
+
 
         // ======= FIXED AUTONOMOUS MODE =======
         async function runAutonomousMode(agentA, agentB) {
@@ -2418,4 +2418,5 @@ Total messages: ${messageCount}
     </script>
 </body>
 </html>
+
 
