@@ -936,10 +936,15 @@ Copy    <script>
         let currentMode = 'manual';
         let selectedAdvisorMode = null;
 
-        // ======= CORRECTED AGENT CONFIG =======
+        // ======= 10-AGENT NUCLEAR ARSENAL =======
         const AGENT_CONFIG = {
+            "gpt4o": {
+                name: "GPT-4o",
+                endpoint: "api/chat",
+                model: "openai/gpt-4o"
+            },
             "chatgpt": {
-                name: "OpenAI GPT-4 Turbo",
+                name: "ChatGPT 4 Turbo",
                 endpoint: "api/chat",
                 model: "openai/gpt-4-turbo"
             },
@@ -948,20 +953,40 @@ Copy    <script>
                 endpoint: "api/chat",
                 model: "deepseek/deepseek-r1"
             },
-            "minmax": {
-                name: "MinMax M1",
-                endpoint: "api/chat",
-                model: "openai/gpt-4o-mini"  // ✅ FIXED: Replace broken minmax model
-            },
             "llama": {
-                name: "Meta Llama 3.3",
+                name: "Llama 3.3 70B",
                 endpoint: "api/chat",
-                model: "meta-llama/llama-3-8b-instruct"
+                model: "meta-llama/llama-3-3-70b-instruct"
             },
             "mistral": {
                 name: "Mistral Large",
                 endpoint: "api/chat",
                 model: "mistralai/mistral-large-2407"
+            },
+            "grok": {
+                name: "Grok Beta",
+                endpoint: "api/chat",
+                model: "x-ai/grok-beta"
+            },
+            "opus": {
+                name: "Claude Opus",
+                endpoint: "api/chat",
+                model: "anthropic/claude-3-opus-20240229"
+            },
+            "gemini": {
+                name: "Gemini 2.0 Flash",
+                endpoint: "api/chat",
+                model: "google/gemini-2-0-flash-exp"
+            },
+            "deepseek-free": {
+                name: "DeepSeek Free",
+                endpoint: "api/chat",
+                model: "deepseek/deepseek-chat"
+            },
+            "perplexity": {
+                name: "Perplexity Pro",
+                endpoint: "api/chat",
+                model: "perplexity/llama-3.1-sonar-huge-128k-online"
             }
         };
 
