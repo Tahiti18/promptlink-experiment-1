@@ -820,12 +820,42 @@ marked.setOptions({
     gfm: true
 });
 
-// Enhanced emoji injection system - ONLY 4 EMOJIS
+// Enhanced emoji injection system
 function enhanceWithEmojis(htmlOutput, context = "default") {
+    const emojiSets = {
+        strategy: ["🎯", "📈", "🚀", "💡", "⚡", "🔥", "📊", "🏆"],
+        technical: ["🔧", "⚙️", "💻", "🛠️", "🔬", "📱", "⚡", "🖥️"],
+        creative: ["🎨", "✨", "🌟", "💫", "🎭", "🌈", "💎", "🎪"],
+        marketing: ["📣", "💰", "🤝", "📊", "🛒", "💸", "📈", "🎯"],
+        brainstorm: ["💡", "🧠", "⚡", "🌟", "🚀", "💭", "🔮", "✨"],
+        debate: ["⚔️", "🥊", "🎭", "🔥", "💪", "🎯", "⚖️", "🗣️"],
+        compliance: ["⚖️", "🛡️", "✅", "📋", "🔒", "🎯", "📊", "🔍"],
+        default: ["🚀", "🔥", "💡", "✅", "🎯", "⚡", "💪", "🌟"]
+    };
+    
+    const emojis = emojiSets[context] || emojiSets.default;
+
+    // Inject emojis at start of list items
+    htmlOutput = htmlOutput.replace(/<li>/g, () => {
+        return `<li>${emojis[Math.floor(Math.random() * emojis.length)]} `;
+    });
+
+    // Inject emojis at start of headers
+    htmlOutput = htmlOutput.replace(/<(h[1-6])>(.*?)<\/\1>/g, (match, tag, content) => {
+        return `<${tag}>${emojis[Math.floor(Math.random() * emojis.length)]} ${content}</${tag}>`;
+    });
+
+    // Add emojis to important paragraphs starting with keywords
     const keywordEmojis = {
+        'Important': '⚠️',
+        'Note': '📝',
         'Tip': '💡',
+        'Warning': '🚨',
         'Example': '📋',
+        'Result': '🎯',
         'Solution': '✅',
+        'Problem': '❌',
+        'Key': '🔑',
         'Summary': '📊'
     };
 
@@ -1029,7 +1059,6 @@ function updateAgentResponse(agent, response) {
     responseElement.scrollTop = responseElement.scrollHeight;
 }
 
-</script>
 
 // ======= ENHANCED AGENT STATUS UPDATES =======
 function updateAgentStatus(agent, status) {
@@ -2077,3 +2106,4 @@ const ADVISOR_RECOMMENDATIONS = {
     </script>
 </body>
 </html>
+
