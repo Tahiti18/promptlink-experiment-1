@@ -1740,7 +1740,7 @@ Copy    <script>
                         b.classList.add('btn-secondary');
                     });
                     this.classList.remove('btn-secondary');
-                    this.classList.add('btn-primary', 'active');
+                    this.classList.add('btn-primary');
                     
                     currentMode = this.dataset.mode;
                     document.getElementById('current-mode').textContent = this.textContent.trim().split('\n')[0];
@@ -1751,11 +1751,11 @@ Copy    <script>
             document.querySelectorAll('.advisor-mode').forEach(btn => {
                 btn.addEventListener('click', function() {
                     document.querySelectorAll('.advisor-mode').forEach(b => {
-                        b.classList.remove('btn-primary', 'active');
+                        b.classList.remove('btn-primary');
                         b.classList.add('btn-secondary');
                     });
                     this.classList.remove('btn-secondary');
-                    this.classList.add('btn-primary', 'active');
+                    this.classList.add('btn-primary');
                     selectedAdvisorMode = this.dataset.mode;
                 });
             });
@@ -1814,10 +1814,10 @@ Copy    <script>
             const agentB = document.getElementById('agent-b-select').value;
             const prompt = document.getElementById('initial-prompt').value.trim();
 
-            if (!agentA || !agentB) {
-                alert('Please select both Agent A and Agent B before starting a session.');
-                return;
-            }
+            if (!agentA && !agentB) {
+    alert("Please select at least one agent");
+    return;
+}
 
             if (!prompt) {
                 alert('Please enter an initial prompt to start the conversation.');
@@ -2418,3 +2418,4 @@ Total messages: ${messageCount}
     </script>
 </body>
 </html>
+
