@@ -1212,28 +1212,27 @@ Copy    <script>
 
         // ======= FIXED MESSAGE EXTRACTION =======
         function extractResponseText(data) {
-              console.log("DEBUG RAW RESPONSE DATA:", JSON.stringify(data, null, 2));
-            // ✅ FIXED: Proper response extraction for autonomous mode
-            if (data.responses) {
-                // Handle backend response format
-                const responses = Object.values(data.responses);
-                if (responses.length > 0 && responses[0].response) {
-                    return responses[0].response;
-                }
-            }
-            
-            if (data.content && Array.isArray(data.content) && data.content[0]?.text) {
-                return data.content[0].text;
-            } else if (data.response) {
-                return data.response;
-            } else if (data.message) {
-                return data.message;
-            } else if (typeof data === 'string') {
-                return data;
-            } else {
-                return "Response received but format not recognized.";
-            }
+    // Always show something on your website, inside Live Conversation
+    addMessageToConversation('system', 'Debug', 'Function called. Raw: ' + JSON.stringify(data));
+    if (data.responses) {
+        const responses = Object.values(data.responses);
+        if (responses.length > 0 && responses[0].response) {
+            return responses[0].response;
         }
+    }
+    if (data.content && Array.isArray(data.content) && data.content[0]?.text) {
+        return data.content[0].text;
+    } else if (data.response) {
+        return data.response;
+    } else if (data.message) {
+        return data.message;
+    } else if (typeof data === 'string') {
+        return data;
+    } else {
+        return "Response received but format not recognized.";
+    }
+}
+
     </script>
 
 <section class="card">
@@ -2419,6 +2418,7 @@ Total messages: ${messageCount}
     </script>
 </body>
 </html>
+
 
 
 
