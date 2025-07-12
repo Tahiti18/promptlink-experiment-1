@@ -1212,6 +1212,7 @@ Copy    <script>
 
         // ======= FIXED MESSAGE EXTRACTION =======
         function extractResponseText(data) {
+              console.log("DEBUG RAW RESPONSE DATA:", JSON.stringify(data, null, 2));
             // ✅ FIXED: Proper response extraction for autonomous mode
             if (data.responses) {
                 // Handle backend response format
@@ -2418,6 +2419,7 @@ Total messages: ${messageCount}
     </script>
 </body>
 </html>
+
 
 
 
