@@ -52,7 +52,7 @@
             background: rgba(6, 11, 20, 0.95);
             backdrop-filter: blur(12px);
             border-bottom: 2px solid var(--separator-color);
-            z-index: 10000;
+            z-index: 1000;
             display: flex;
             align-items: center;
             padding: 16px 24px;
@@ -181,7 +181,7 @@
             visibility: hidden;
             transform: translateY(-10px);
             transition: all 0.3s ease;
-            z-index: 10001;
+            z-index: 1001;
         }
 
         .dropdown-menu.active {
@@ -349,42 +349,45 @@
             box-shadow: 0 0 8px rgba(0, 180, 216, 0.4);
         }
 
-        .help-tooltip {
-            position: absolute;
-            bottom: 120%;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(15, 23, 42, 0.95);
-            color: var(--text-primary);
-            padding: 12px 16px;
-            border-radius: 8px;
-            font-size: 12px;
-            line-height: 1.4;
-            white-space: nowrap;
-            max-width: 300px;
-            white-space: normal;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-            border: 1px solid var(--border-color);
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-            z-index: 10000;
+        /* ===== TOOLTIP Z-INDEX FIX ===== */
+        .help-tooltip, 
+        .tooltip-popup,
+        [data-tooltip]:after,
+        [data-tooltip]:before {
+            position: fixed !important;
+            z-index: 2147483647 !important;
+            background: rgba(15, 23, 42, 0.95) !important;
+            color: var(--text-primary) !important;
+            padding: 12px 16px !important;
+            border-radius: 8px !important;
+            font-size: 12px !important;
+            line-height: 1.4 !important;
+            max-width: 300px !important;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4) !important;
+            border: 1px solid var(--border-color) !important;
+            opacity: 0 !important;
+            visibility: hidden !important;
+            transition: all 0.3s ease !important;
+            pointer-events: auto !important;
+            white-space: normal !important;
         }
 
         .help-tooltip::after {
-            content: '';
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            border: 6px solid transparent;
-            border-top-color: rgba(15, 23, 42, 0.95);
+            content: '' !important;
+            position: absolute !important;
+            top: 100% !important;
+            left: 50% !important;
+            transform: translateX(-50%) !important;
+            border: 6px solid transparent !important;
+            border-top-color: rgba(15, 23, 42, 0.95) !important;
+            z-index: 2147483647 !important;
         }
 
         .help-icon:hover .help-tooltip {
-            opacity: 1;
-            visibility: visible;
+            opacity: 1 !important;
+            visibility: visible !important;
         }
+        /* ===== END TOOLTIP FIX ===== */
 
         .btn {
             display: inline-flex;
@@ -2464,4 +2467,5 @@ Total messages: ${messageCount}
     </script>
 </body>
 </html>
+
 
