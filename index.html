@@ -1257,26 +1257,110 @@ Copy    <script>
 
         // ======= FIXED MESSAGE EXTRACTION =======
         function extractResponseText(data) {
-    // Always show something on your website, inside Live Conversation
-    addMessageToConversation('system', 'Debug', 'Function called. Raw: ' + JSON.stringify(data));
-    if (data.responses) {
-        const responses = Object.values(data.responses);
-        if (responses.length > 0 && responses[0].response) {
-            return responses[0].response;
+            // Debug: Always show the raw response structure
+            console.log('Raw API Response:', JSON.stringify(data, null, 2));
+            
+            // Handle null or undefined
+            if (!data) {
+                return "No response received.";
+            }
+            
+            // Handle string responses directly
+            if (typeof data === 'string') {
+                return data;
+            }
+            
+            // Handle OpenRouter standard format: data.choices[0].message.content
+            if (data.choices && Array.isArray(data.choices) && data.choices.length > 0) {
+                const choice = data.choices[0];
+                if (choice.message && choice.message.content) {
+                    return choice.message.content;
+                }
+                if (choice.text) {
+                    return choice.text;
+                }
+            }
+            
+            // Handle custom backend format: data.responses
+            if (data.responses) {
+                const responses = Object.values(data.responses);
+                if (responses.length > 0 && responses[0].response) {
+                    return responses[0].response;
+                }
+            }
+            
+            // Handle content array format (some models)
+            if (data.content && Array.isArray(data.content) && data.content.length > 0) {
+                if (data.content[0].text) {
+                    return data.content[0].text;
+                }
+                if (typeof data.content[0] === 'string') {
+                    return data.content[0];
+                }
+            }
+            
+            // Handle direct response field
+            if (data.response) {
+                return data.response;
+            }
+            
+            // Handle direct message field
+            if (data.message) {
+                if (typeof data.message === 'string') {
+                    return data.message;
+                }
+                if (data.message.content) {
+                    return data.message.content;
+                }
+            }
+            
+            // Handle text field directly
+            if (data.text) {
+                return data.text;
+            }
+            
+            // Handle data field (some APIs wrap response in data)
+            if (data.data) {
+                return extractResponseText(data.data); // Recursive call
+            }
+            
+            // Handle result field
+            if (data.result) {
+                if (typeof data.result === 'string') {
+                    return data.result;
+                }
+                return extractResponseText(data.result); // Recursive call
+            }
+            
+            // Handle output field
+            if (data.output) {
+                if (typeof data.output === 'string') {
+                    return data.output;
+                }
+                return extractResponseText(data.output); // Recursive call
+            }
+            
+            // Handle completion field (some OpenAI-compatible APIs)
+            if (data.completion) {
+                return data.completion;
+            }
+            
+            // Handle generated_text field (some Hugging Face models)
+            if (data.generated_text) {
+                return data.generated_text;
+            }
+            
+            // Last resort: try to find any string value in the object
+            if (typeof data === 'object') {
+                const stringValues = Object.values(data).filter(value => typeof value === 'string' && value.length > 0);
+                if (stringValues.length > 0) {
+                    return stringValues[0];
+                }
+            }
+            
+            // If all else fails, show the structure for debugging
+            return `Response received but format not recognized. Structure: ${JSON.stringify(Object.keys(data))}`;
         }
-    }
-    if (data.content && Array.isArray(data.content) && data.content[0]?.text) {
-        return data.content[0].text;
-    } else if (data.response) {
-        return data.response;
-    } else if (data.message) {
-        return data.message;
-    } else if (typeof data === 'string') {
-        return data;
-    } else {
-        return "Response received but format not recognized.";
-    }
-}
 
     </script>
 
