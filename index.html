@@ -1281,11 +1281,65 @@ Copy    <script>
                 }
             }
             
-            // Handle custom backend format: data.responses
+            // Handle custom backend format: data.responses (FIXED for ["metadata","responses","success"])
             if (data.responses) {
-                const responses = Object.values(data.responses);
-                if (responses.length > 0 && responses[0].response) {
-                    return responses[0].response;
+                console.log('Found responses field:', data.responses);
+                
+                // Handle responses as object with agent keys
+                if (typeof data.responses === 'object' && !Array.isArray(data.responses)) {
+                    const responseValues = Object.values(data.responses);
+                    console.log('Response values:', responseValues);
+                    
+                    if (responseValues.length > 0) {
+                        const firstResponse = responseValues[0];
+                        console.log('First response:', firstResponse);
+                        
+                        // Check if response has nested structure
+                        if (firstResponse && typeof firstResponse === 'object') {
+                            // Try common response content fields
+                            if (firstResponse.response) {
+                                return firstResponse.response;
+                            }
+                            if (firstResponse.content) {
+                                return firstResponse.content;
+                            }
+                            if (firstResponse.message) {
+                                return firstResponse.message;
+                            }
+                            if (firstResponse.text) {
+                                return firstResponse.text;
+                            }
+                            // If it has choices (OpenRouter format)
+                            if (firstResponse.choices && Array.isArray(firstResponse.choices) && firstResponse.choices.length > 0) {
+                                const choice = firstResponse.choices[0];
+                                if (choice.message && choice.message.content) {
+                                    return choice.message.content;
+                                }
+                                if (choice.text) {
+                                    return choice.text;
+                                }
+                            }
+                        }
+                        
+                        // If it's a string, return it directly
+                        if (typeof firstResponse === 'string') {
+                            return firstResponse;
+                        }
+                    }
+                }
+                
+                // Handle responses as array
+                if (Array.isArray(data.responses) && data.responses.length > 0) {
+                    const firstResponse = data.responses[0];
+                    if (typeof firstResponse === 'string') {
+                        return firstResponse;
+                    }
+                    if (firstResponse && typeof firstResponse === 'object') {
+                        if (firstResponse.response) return firstResponse.response;
+                        if (firstResponse.content) return firstResponse.content;
+                        if (firstResponse.message) return firstResponse.message;
+                        if (firstResponse.text) return firstResponse.text;
+                    }
                 }
             }
             
@@ -1358,8 +1412,10 @@ Copy    <script>
                 }
             }
             
-            // If all else fails, show the structure for debugging
-            return `Response received but format not recognized. Structure: ${JSON.stringify(Object.keys(data))}`;
+            // Enhanced error message with more details
+            const availableKeys = Object.keys(data);
+            const responseStructure = data.responses ? Object.keys(data.responses) : 'N/A';
+            return `Response received but format not recognized. Available keys: [${availableKeys.join(', ')}]. Responses structure: [${responseStructure}]. Raw: ${JSON.stringify(data).substring(0, 200)}...`;
         }
 
     </script>
