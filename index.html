@@ -1856,17 +1856,26 @@ Copy    <script>
         // ======= FIXED AUTONOMOUS MODE =======
         async function runAutonomousMode(agentA, agentB) {
             const rounds = parseInt(document.getElementById('rounds-input').value) || 5;
+            const totalMessages = rounds * 2; // ✅ FIX: Each round = 2 messages (A + B)
             let currentAgent = agentB;
             let currentAgentLetter = 'b';
+            let consecutiveErrors = 0;
+            const maxConsecutiveErrors = 3; // ✅ FIX: Error resilience
             
-            for (let i = 0; i < rounds && sessionActive; i++) {
+            console.log(`🚀 Starting autonomous mode: ${rounds} rounds (${totalMessages} total messages)`);
+            
+            for (let i = 0; i < totalMessages && sessionActive; i++) {
                 const messages = document.querySelectorAll('#live-conversation .message-bubble');
                 const lastMessage = messages[messages.length - 1];
                 const lastMessageContent = lastMessage?.querySelector('.message-content')?.textContent || '';
                 
                 try {
+                    console.log(`📤 Message ${i + 1}/${totalMessages}: ${currentAgentLetter.toUpperCase()}`);
                     // ✅ FIXED: Use clean text content, not JSON
                     await processAgentMessage(currentAgent, lastMessageContent, currentAgentLetter);
+                    
+                    // Reset error counter on successful message
+                    consecutiveErrors = 0;
                     
                     if (currentAgent === agentA) {
                         currentAgent = agentB;
@@ -1876,12 +1885,49 @@ Copy    <script>
                         currentAgentLetter = 'a';
                     }
                     
+                    // Update round count for display
+                    roundCount = Math.floor((i + 1) / 2);
+                    
                     await new Promise(resolve => setTimeout(resolve, 3000));
                     
                 } catch (error) {
-                    console.error(`Autonomous round ${i + 1} error:`, error);
-                    break;
+                    console.error(`❌ Autonomous message ${i + 1} error:`, error);
+                    consecutiveErrors++;
+                    
+                    // Add error message to conversation
+                    addMessageToConversation('system', 'System Notice', 
+                        `⚠️ **Agent ${currentAgentLetter.toUpperCase()} Error** (Message ${i + 1}/${totalMessages})\n\n${error.message}\n\n${consecutiveErrors < maxConsecutiveErrors ? '🔄 Continuing with next agent...' : '🛑 Too many consecutive errors, stopping session.'}`
+                    );
+                    
+                    // Only break if we have too many consecutive errors
+                    if (consecutiveErrors >= maxConsecutiveErrors) {
+                        updateSessionStatus('Error - Too many failures');
+                        break;
+                    }
+                    
+                    // Continue with next agent even if current one failed
+                    if (currentAgent === agentA) {
+                        currentAgent = agentB;
+                        currentAgentLetter = 'b';
+                    } else {
+                        currentAgent = agentA;
+                        currentAgentLetter = 'a';
+                    }
+                    
+                    // Shorter delay on error to retry faster
+                    await new Promise(resolve => setTimeout(resolve, 1000));
                 }
+            }
+            
+            // Session completion message
+            if (sessionActive) {
+                const actualRounds = Math.floor(messageCount / 2);
+                const completionMessage = consecutiveErrors === 0 ? 
+                    `🎉 **Autonomous Session Complete!**\n\n✅ Successfully completed ${actualRounds} rounds\n📊 Total messages: ${messageCount}\n⚡ No errors encountered` :
+                    `🎉 **Autonomous Session Complete!**\n\n✅ Completed ${actualRounds} rounds\n📊 Total messages: ${messageCount}\n⚠️ ${consecutiveErrors} errors in final attempts`;
+                    
+                addMessageToConversation('system', 'Session Complete', completionMessage);
+                updateSessionStatus('Completed');
             }
         }
 
@@ -2418,3 +2464,4 @@ Total messages: ${messageCount}
     </script>
 </body>
 </html>
+
