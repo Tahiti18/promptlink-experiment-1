@@ -1293,44 +1293,60 @@ Copy    <script>
                     if (responseKeys.length > 0) {
                         // Get the first agent's response (usually there's only one)
                         const agentName = responseKeys[0];
-                        const firstResponse = data.responses[agentName];
-                        console.log(`Agent ${agentName} response:`, firstResponse);
+                        const agentResponse = data.responses[agentName];
+                        console.log(`Agent ${agentName} response:`, agentResponse);
                         
-                        // Check if response has nested structure
-                        if (firstResponse && typeof firstResponse === 'object') {
-                            // Try common response content fields
-                            if (firstResponse.response) {
-                                return firstResponse.response;
-                            }
-                            if (firstResponse.content) {
-                                return firstResponse.content;
-                            }
-                            if (firstResponse.message) {
-                                return firstResponse.message;
-                            }
-                            if (firstResponse.text) {
-                                return firstResponse.text;
-                            }
-                            // If it has choices (OpenRouter format)
-                            if (firstResponse.choices && Array.isArray(firstResponse.choices) && firstResponse.choices.length > 0) {
-                                const choice = firstResponse.choices[0];
-                                if (choice.message && choice.message.content) {
-                                    return choice.message.content;
-                                }
-                                if (choice.text) {
-                                    return choice.text;
-                                }
-                            }
+                        // If the agent response is a string, return it directly
+                        if (typeof agentResponse === 'string') {
+                            return agentResponse;
                         }
-                        
-                        // If it's a string, return it directly
-                        if (typeof firstResponse === 'string') {
-                            return firstResponse;
-                        }
-                    }
-                }
-                
-                // Handle responses as array
+                        if (agentResponse && typeof agentResponse === 'object') {
+                            // Recursive function to find any text content in nested objects
+                            function findTextContent(obj, depth = 0) {
+                                if (depth > 5) return null; // Prevent infinite recursion
+                                
+                                if (typeof obj === 'string' && obj.trim().length > 0) {
+                                    return obj.trim();
+                                }
+                                
+                                if (typeof obj !== 'object' || obj === null) {
+                                    return null;
+                                }
+                                
+                                // Try common content fields first
+                                const contentFields = ['content', 'message', 'text', 'response', 'output', 'result', 'data'];
+                                for (const field of contentFields) {
+                                    if (obj[field]) {
+                                        const result = findTextContent(obj[field], depth + 1);
+                                        if (result) return result;
+                                    }
+                                }
+                                
+                                // Try OpenRouter choices format
+                                if (obj.choices && Array.isArray(obj.choices) && obj.choices.length > 0) {
+                                    const choice = obj.choices[0];
+                                    if (choice.message && choice.message.content) {
+                                        return choice.message.content;
+                                    }
+                                    if (choice.text) {
+                                        return choice.text;
+                                    }
+                                }
+                                
+                                // Search through all object values
+                                for (const value of Object.values(obj)) {
+                                    const result = findTextContent(value, depth + 1);
+                                    if (result) return result;
+                                }
+                                
+                                return null;
+                            }
+                            
+                            const extractedContent = findTextContent(agentResponse);
+                            if (extractedContent) {
+                                return extractedContent;
+                            }
+                        }   // Handle responses as array
                 if (Array.isArray(data.responses) && data.responses.length > 0) {
                     const firstResponse = data.responses[0];
                     if (typeof firstResponse === 'string') {
