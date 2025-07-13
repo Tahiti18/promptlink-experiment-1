@@ -376,7 +376,18 @@
             visibility: hidden;
             transform: translateY(-10px);
             transition: all 0.3s ease;
-            z-index: 10000;
+            z-index: 999999;
+        }
+
+        /* Fix for top 3 tooltips that go underneath other elements */
+        #orchestration-help.help-panel.active,
+        #prompt-help.help-panel.active,
+        #advisor-help.help-panel.active {
+            position: fixed !important;
+            top: auto !important;
+            bottom: 20px !important;
+            right: 20px !important;
+            z-index: 999999 !important;
         }
 
         .help-panel.active {
