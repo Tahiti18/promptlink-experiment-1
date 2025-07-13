@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PromptLink - AI Collaboration on Autopilot</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
@@ -13,8 +13,6 @@
             --logo-secondary: #0077B6;
             --logo-accent: #00D4C7;
             --logo-deep: #023E8A;
-            --accent-orange: rgba(255, 183, 77, 0.8);
-            --accent-orange-bright: #FFB74D;
             --bg-dark: #0a0f1c;
             --bg-darker: #060b14;
             --bg-card: rgba(15, 23, 42, 0.8);
@@ -36,7 +34,7 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Playfair Display', serif;
             background: linear-gradient(135deg, var(--bg-darker) 0%, var(--bg-dark) 100%);
             color: var(--text-primary);
             min-height: 100vh;
@@ -113,7 +111,7 @@
         }
 
         .nav-link {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Playfair Display', serif;
             font-size: 15px;
             font-weight: 500;
             color: var(--text-secondary);
@@ -257,14 +255,14 @@
             align-items: center;
             gap: 10px;
             padding: 10px 18px;
-            background: rgba(255, 183, 77, 0.15);
-            border: 1px solid var(--accent-orange-bright);
+            background: rgba(100, 116, 139, 0.15);
+            border: 1px solid var(--text-muted);
             border-radius: 22px;
-            box-shadow: 0 0 8px rgba(255, 183, 77, 0.2);
+            box-shadow: 0 0 8px rgba(100, 116, 139, 0.2);
         }
 
         .credits-icon {
-            color: var(--accent-orange-bright);
+            color: var(--text-muted);
             font-size: 13px;
         }
 
@@ -276,7 +274,7 @@
 
         .credits-amount {
             font-weight: 600;
-            color: var(--accent-orange-bright);
+            color: var(--text-primary);
         }
 
         .main-content {
@@ -296,6 +294,7 @@
             padding: 24px;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.05);
             transition: all 0.3s ease;
+            position: relative;
         }
 
         .card:hover {
@@ -307,9 +306,15 @@
         .card-header {
             display: flex;
             align-items: center;
-            gap: 12px;
+            justify-content: space-between;
             margin-bottom: 20px;
             position: relative;
+        }
+
+        .card-title-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
 
         .card-title {
@@ -325,69 +330,93 @@
             font-size: 18px;
         }
 
-        /* ===== ENHANCED TOOLTIP SYSTEM ===== */
-        .help-icon {
+        /* ===== CLEAN SECTION HELP SYSTEM ===== */
+        .section-help {
             position: relative;
-            display: inline-flex;
+            display: inline-block;
+        }
+
+        .help-button {
+            display: flex;
             align-items: center;
             justify-content: center;
-            width: 18px;
-            height: 18px;
-            background: rgba(0, 180, 216, 0.2);
-            border: 1px solid var(--logo-primary);
-            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            background: rgba(0, 180, 216, 0.15);
+            border: 1px solid rgba(0, 180, 216, 0.3);
+            border-radius: 6px;
             color: var(--logo-primary);
-            font-size: 10px;
-            font-weight: 600;
-            cursor: help;
-            transition: all 0.3s ease;
-            margin-left: 8px;
-        }
-
-        .help-icon:hover {
-            background: rgba(0, 180, 216, 0.3);
-            transform: scale(1.1);
-            box-shadow: 0 0 12px rgba(0, 180, 216, 0.4);
-        }
-
-        .help-tooltip {
-            position: absolute;
-            bottom: 100%;
-            left: 50%;
-            transform: translateX(-50%) translateY(-8px);
-            background: rgba(15, 23, 42, 0.95);
-            backdrop-filter: blur(16px);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 10px 14px;
-            min-width: 200px;
-            max-width: 300px;
-            color: var(--text-primary);
             font-size: 12px;
-            line-height: 1.4;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-            opacity: 0;
-            visibility: hidden;
+            cursor: pointer;
             transition: all 0.3s ease;
-            z-index: 1000;
-            white-space: normal;
-            word-wrap: break-word;
+            opacity: 0.7;
         }
 
-        .help-tooltip::after {
-            content: '';
+        .help-button:hover {
+            background: rgba(0, 180, 216, 0.25);
+            border-color: var(--logo-primary);
+            opacity: 1;
+            transform: scale(1.05);
+        }
+
+        .help-panel {
             position: absolute;
             top: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            border: 6px solid transparent;
-            border-top-color: rgba(15, 23, 42, 0.95);
+            right: 0;
+            margin-top: 8px;
+            width: 400px;
+            max-width: 90vw;
+            background: rgba(15, 23, 42, 0.98);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 10000;
         }
 
-        .help-icon:hover .help-tooltip {
+        .help-panel.active {
             opacity: 1;
             visibility: visible;
-            transform: translateX(-50%) translateY(-12px);
+            transform: translateY(0);
+        }
+
+        .help-panel h3 {
+            color: var(--logo-primary);
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        .help-item {
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(59, 130, 246, 0.1);
+        }
+
+        .help-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .help-item-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 13px;
+            margin-bottom: 4px;
+        }
+
+        .help-item-desc {
+            font-size: 12px;
+            color: var(--text-secondary);
+            line-height: 1.4;
         }
 
         /* ===== VOICE DICTATION BUTTON ===== */
@@ -447,7 +476,7 @@
             padding: 12px 24px;
             border: none;
             border-radius: 10px;
-            font-family: 'Inter', sans-serif;
+            font-family: 'Playfair Display', serif;
             font-size: 14px;
             font-weight: 500;
             text-decoration: none;
@@ -620,10 +649,8 @@
                 padding: 16px;
             }
             
-            .help-tooltip {
-                min-width: 180px;
-                max-width: 250px;
-                font-size: 11px;
+            .help-panel {
+                width: 320px;
             }
             
             .btn {
@@ -676,18 +703,10 @@
             .card-title {
                 font-size: 18px;
             }
-        }
 
-        .button-with-tooltip {
-            position: relative;
-            display: inline-block;
-        }
-
-        .button-with-tooltip .help-icon {
-            position: absolute;
-            top: 5px;
-            right: -20px;
-            z-index: 1000;
+            .help-panel {
+                width: 280px;
+            }
         }
 
         /* ===== FORM STYLING ===== */
@@ -698,6 +717,7 @@
         .form-label {
             display: flex;
             align-items: center;
+            font-family: 'Playfair Display', serif;
             font-size: 14px;
             font-weight: 500;
             color: var(--text-secondary);
@@ -711,7 +731,7 @@
             border: 1px solid var(--border-color);
             border-radius: 8px;
             color: var(--text-primary);
-            font-family: 'Inter', sans-serif;
+            font-family: 'Playfair Display', serif;
             font-size: 14px;
             transition: all 0.3s ease;
         }
@@ -725,7 +745,7 @@
         .form-textarea {
             resize: vertical;
             min-height: 100px;
-            font-family: 'Inter', sans-serif;
+            font-family: 'Playfair Display', serif;
         }
 
         .form-select {
@@ -735,7 +755,7 @@
             border: 1px solid var(--border-color);
             border-radius: 8px;
             color: var(--text-primary);
-            font-family: 'Inter', sans-serif;
+            font-family: 'Playfair Display', serif;
             font-size: 14px;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -841,8 +861,8 @@
         }
 
         .message-human {
-            background: rgba(255, 183, 77, 0.1);
-            border-left-color: var(--accent-orange-bright);
+            background: rgba(100, 116, 139, 0.1);
+            border-left-color: var(--text-muted);
         }
 
         .message-system {
@@ -957,70 +977,88 @@
     <main class="main-content">
         <section class="card">
             <div class="card-header">
-                <i class="fas fa-cogs card-icon"></i>
-                <h2 class="card-title">Orchestration Mode</h2>
-                <div class="help-icon">i
-                    <div class="help-tooltip">Choose how agents interact: Manual gives you control over each step, Autonomous lets agents talk freely, Single Agent modes focus on one AI.</div>
+                <div class="card-title-section">
+                    <i class="fas fa-cogs card-icon"></i>
+                    <h2 class="card-title">Orchestration Mode</h2>
+                </div>
+                <div class="section-help">
+                    <div class="help-button" onclick="toggleHelp('orchestration-help')">
+                        <i class="fas fa-question"></i>
+                    </div>
+                    <div id="orchestration-help" class="help-panel">
+                        <h3>Orchestration Mode Guide</h3>
+                        <div class="help-item">
+                            <div class="help-item-title">Manual Relay</div>
+                            <div class="help-item-desc">You control when each agent responds. Perfect for guided conversations and step-by-step analysis.</div>
+                        </div>
+                        <div class="help-item">
+                            <div class="help-item-title">Autonomous</div>
+                            <div class="help-item-desc">Agents talk to each other automatically for the set number of rounds. Great for exploring ideas and debates.</div>
+                        </div>
+                        <div class="help-item">
+                            <div class="help-item-title">Agent A Only</div>
+                            <div class="help-item-desc">Focus on just Agent A for concentrated analysis. Perfect when you need deep insight from one specific AI model.</div>
+                        </div>
+                        <div class="help-item">
+                            <div class="help-item-title">Agent B Only</div>
+                            <div class="help-item-desc">Focus on just Agent B for concentrated analysis. Perfect when you need deep insight from one specific AI model.</div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="grid-4">
-                <div class="button-with-tooltip">
-                    <button class="btn btn-primary orchestration-mode" data-mode="manual">
-                        <i class="fas fa-hand-paper"></i>
-                        <div>
-                            <div>Manual Relay</div>
-                            <small>Human controlled</small>
-                        </div>
-                    </button>
-                    <div class="help-icon">i
-                        <div class="help-tooltip">You control when each agent responds. Perfect for guided conversations and step-by-step analysis.</div>
+                <button class="btn btn-primary orchestration-mode" data-mode="manual">
+                    <i class="fas fa-hand-paper"></i>
+                    <div>
+                        <div>Manual Relay</div>
+                        <small>Human controlled</small>
                     </div>
-                </div>
-                <div class="button-with-tooltip">
-                    <button class="btn btn-secondary orchestration-mode" data-mode="autonomous">
-                        <i class="fas fa-robot"></i>
-                        <div>
-                            <div>Autonomous</div>
-                            <small>AI self-directed</small>
-                        </div>
-                    </button>
-                    <div class="help-icon">i
-                        <div class="help-tooltip">Agents talk to each other automatically for the set number of rounds. Great for exploring ideas and debates.</div>
+                </button>
+                <button class="btn btn-secondary orchestration-mode" data-mode="autonomous">
+                    <i class="fas fa-robot"></i>
+                    <div>
+                        <div>Autonomous</div>
+                        <small>AI self-directed</small>
                     </div>
-                </div>
-                <div class="button-with-tooltip">
-                    <button class="btn btn-secondary orchestration-mode" data-mode="agent-a">
-                        <i class="fas fa-user"></i>
-                        <div>
-                            <div>Agent A Only</div>
-                            <small>Single agent</small>
-                        </div>
-                    </button>
-                    <div class="help-icon">i
-                        <div class="help-tooltip">Focus on just Agent A for concentrated analysis. Perfect when you need deep insight from one specific AI model.</div>
+                </button>
+                <button class="btn btn-secondary orchestration-mode" data-mode="agent-a">
+                    <i class="fas fa-user"></i>
+                    <div>
+                        <div>Agent A Only</div>
+                        <small>Single agent</small>
                     </div>
-                </div>
-                <div class="button-with-tooltip">
-                    <button class="btn btn-secondary orchestration-mode" data-mode="agent-b">
-                        <i class="fas fa-user"></i>
-                        <div>
-                            <div>Agent B Only</div>
-                            <small>Single agent</small>
-                        </div>
-                    </button>
-                    <div class="help-icon">i
-                        <div class="help-tooltip">Focus on just Agent B for concentrated analysis. Perfect when you need deep insight from one specific AI model.</div>
+                </button>
+                <button class="btn btn-secondary orchestration-mode" data-mode="agent-b">
+                    <i class="fas fa-user"></i>
+                    <div>
+                        <div>Agent B Only</div>
+                        <small>Single agent</small>
                     </div>
-                </div>
+                </button>
             </div>
         </section>
 
         <section class="card">
             <div class="card-header">
-                <i class="fas fa-edit card-icon"></i>
-                <h2 class="card-title">Initial Prompt</h2>
-                <div class="help-icon">i
-                    <div class="help-tooltip">Enter your starting message here. This will be the foundation for the AI conversation. Be specific about what you want to explore or discuss. Use the microphone button for voice input!</div>
+                <div class="card-title-section">
+                    <i class="fas fa-edit card-icon"></i>
+                    <h2 class="card-title">Initial Prompt</h2>
+                </div>
+                <div class="section-help">
+                    <div class="help-button" onclick="toggleHelp('prompt-help')">
+                        <i class="fas fa-question"></i>
+                    </div>
+                    <div id="prompt-help" class="help-panel">
+                        <h3>Initial Prompt Guide</h3>
+                        <div class="help-item">
+                            <div class="help-item-title">Prompt Input</div>
+                            <div class="help-item-desc">Enter your starting message here. This will be the foundation for the AI conversation. Be specific about what you want to explore or discuss.</div>
+                        </div>
+                        <div class="help-item">
+                            <div class="help-item-title">Voice Input</div>
+                            <div class="help-item-desc">Click the microphone button to use voice dictation for hands-free prompt entry. Works in Chrome, Edge, and Safari.</div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="form-group">
@@ -1038,81 +1076,88 @@
 
         <section class="card">
             <div class="card-header">
-                <i class="fas fa-lightbulb card-icon"></i>
-                <h2 class="card-title">AI Advisor</h2>
-                <div class="help-icon">i
-                    <div class="help-tooltip">Choose a conversation style and get AI-recommended agent pairings. Each mode optimizes for different types of interactions and outcomes.</div>
+                <div class="card-title-section">
+                    <i class="fas fa-lightbulb card-icon"></i>
+                    <h2 class="card-title">AI Advisor</h2>
+                </div>
+                <div class="section-help">
+                    <div class="help-button" onclick="toggleHelp('advisor-help')">
+                        <i class="fas fa-question"></i>
+                    </div>
+                    <div id="advisor-help" class="help-panel">
+                        <h3>AI Advisor Guide</h3>
+                        <div class="help-item">
+                            <div class="help-item-title">Conversation Styles</div>
+                            <div class="help-item-desc">Choose from 6 optimized conversation modes: Free Discussion, Brainstorm, Debate, Strategy, Technical, and Compliance.</div>
+                        </div>
+                        <div class="help-item">
+                            <div class="help-item-title">AI Recommendations</div>
+                            <div class="help-item-desc">Automatically fills both agent dropdowns with the optimal AI pairing for your selected conversation style.</div>
+                        </div>
+                        <div class="help-item">
+                            <div class="help-item-title">Mode Benefits</div>
+                            <div class="help-item-desc">Each mode optimizes agent selection and conversation flow for different types of interactions and outcomes.</div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="grid-6">
-                <div class="button-with-tooltip">
-                    <button class="btn btn-secondary advisor-mode" data-mode="discussion">
-                        Free Discussion
-                    </button>
-                    <div class="help-icon">i
-                        <div class="help-tooltip">Open-ended collaborative exploration. Great for brainstorming and general topic exploration.</div>
-                    </div>
-                </div>
-                <div class="button-with-tooltip">
-                    <button class="btn btn-secondary advisor-mode" data-mode="brainstorm">
-                        Brainstorm
-                    </button>
-                    <div class="help-icon">i
-                        <div class="help-tooltip">Creative ideation and innovative solutions. Optimized for generating new ideas and approaches.</div>
-                    </div>
-                </div>
-                <div class="button-with-tooltip">
-                    <button class="btn btn-secondary advisor-mode" data-mode="debate">
-                        Debate
-                    </button>
-                    <div class="help-icon">i
-                        <div class="help-tooltip">Structured argumentation with opposing viewpoints. Perfect for exploring multiple sides of complex issues.</div>
-                    </div>
-                </div>
-                <div class="button-with-tooltip">
-                    <button class="btn btn-secondary advisor-mode" data-mode="strategy">
-                        Strategy
-                    </button>
-                    <div class="help-icon">i
-                        <div class="help-tooltip">Strategic planning and decision-making focus. Ideal for business planning and goal-oriented discussions.</div>
-                    </div>
-                </div>
-                <div class="button-with-tooltip">
-                    <button class="btn btn-secondary advisor-mode" data-mode="technical">
-                        Technical
-                    </button>
-                    <div class="help-icon">i
-                        <div class="help-tooltip">Technical analysis and implementation details. Best for deep-dive technical problem solving.</div>
-                    </div>
-                </div>
-                <div class="button-with-tooltip">
-                    <button class="btn btn-secondary advisor-mode" data-mode="compliance">
-                        Compliance
-                    </button>
-                    <div class="help-icon">i
-                        <div class="help-tooltip">Regulatory compliance and risk assessment. Focused on standards, regulations, and safety considerations.</div>
-                    </div>
-                </div>
+                <button class="btn btn-secondary advisor-mode" data-mode="discussion">
+                    Free Discussion
+                </button>
+                <button class="btn btn-secondary advisor-mode" data-mode="brainstorm">
+                    Brainstorm
+                </button>
+                <button class="btn btn-secondary advisor-mode" data-mode="debate">
+                    Debate
+                </button>
+                <button class="btn btn-secondary advisor-mode" data-mode="strategy">
+                    Strategy
+                </button>
+                <button class="btn btn-secondary advisor-mode" data-mode="technical">
+                    Technical
+                </button>
+                <button class="btn btn-secondary advisor-mode" data-mode="compliance">
+                    Compliance
+                </button>
             </div>
             <div style="margin-top: 16px;">
-                <div class="button-with-tooltip">
-                    <button id="get-recommendations" class="btn btn-primary">
-                        <i class="fas fa-magic"></i>
-                        Get AI Recommendations
-                    </button>
-                    <div class="help-icon">i
-                        <div class="help-tooltip">Automatically fills both agent dropdowns with the optimal AI pairing for your selected conversation style.</div>
-                    </div>
-                </div>
+                <button id="get-recommendations" class="btn btn-primary">
+                    <i class="fas fa-magic"></i>
+                    Get AI Recommendations
+                </button>
             </div>
         </section>
 
         <section class="card">
             <div class="card-header">
-                <i class="fas fa-user-cog card-icon"></i>
-                <h2 class="card-title">Human Controller</h2>
-                <div class="help-icon">i
-                    <div class="help-tooltip">Control the conversation flow. Start sessions, manage rounds, and inject guidance to steer the AI discussion.</div>
+                <div class="card-title-section">
+                    <i class="fas fa-user-cog card-icon"></i>
+                    <h2 class="card-title">Human Controller</h2>
+                </div>
+                <div class="section-help">
+                    <div class="help-button" onclick="toggleHelp('controller-help')">
+                        <i class="fas fa-question"></i>
+                    </div>
+                    <div id="controller-help" class="help-panel">
+                        <h3>Human Controller Guide</h3>
+                        <div class="help-item">
+                            <div class="help-item-title">Session Controls</div>
+                            <div class="help-item-desc">Start, pause, stop, and manage AI conversations. Control the flow and timing of agent interactions.</div>
+                        </div>
+                        <div class="help-item">
+                            <div class="help-item-title">Rounds Setting</div>
+                            <div class="help-item-desc">Set the number of back-and-forth exchanges in autonomous mode. More rounds = deeper exploration.</div>
+                        </div>
+                        <div class="help-item">
+                            <div class="help-item-title">Human Interjection</div>
+                            <div class="help-item-desc">Add your own guidance during conversations. Perfect for steering discussions or asking follow-up questions.</div>
+                        </div>
+                        <div class="help-item">
+                            <div class="help-item-title">Voice Input</div>
+                            <div class="help-item-desc">Use voice dictation for hands-free operation when adding guidance or instructions.</div>
+                        </div>
+                    </div>
                 </div>
             </div>
             
@@ -1120,47 +1165,28 @@
                 <button id="start-session" class="btn btn-primary">
                     <i class="fas fa-play"></i>
                     Start Session
-                    <div class="help-icon">i
-                        <div class="help-tooltip">Begin the AI conversation with your selected agents and initial prompt.</div>
-                    </div>
                 </button>
                 <button id="next-step" class="btn btn-secondary" disabled>
                     <i class="fas fa-step-forward"></i>
                     Next Step
-                    <div class="help-icon">i
-                        <div class="help-tooltip">In manual mode, advance to the next agent response. Gives you control over conversation flow.</div>
-                    </div>
                 </button>
                 <button id="pause-session" class="btn btn-secondary" disabled>
                     <i class="fas fa-pause"></i>
                     Pause
-                    <div class="help-icon">i
-                        <div class="help-tooltip">Temporarily stop autonomous conversations. You can resume later or switch to manual control.</div>
-                    </div>
                 </button>
                 <button id="stop-session" class="btn btn-secondary" disabled>
                     <i class="fas fa-stop"></i>
                     Stop
-                    <div class="help-icon">i
-                        <div class="help-tooltip">End the current session completely. All conversation data will be saved to session memory.</div>
-                    </div>
                 </button>
                 <button id="clear-all" class="btn btn-secondary">
                     <i class="fas fa-trash"></i>
                     Clear All
-                    <div class="help-icon">i
-                        <div class="help-tooltip">Reset everything - clears agents, conversation, and starts fresh. Use when you want to begin a new topic.</div>
-                    </div>
                 </button>
             </div>
 
             <div class="grid-3" style="margin-bottom: 24px;">
                 <div class="form-group">
-                    <label class="form-label">Rounds (Autonomous Mode)
-                        <div class="help-icon">i
-                            <div class="help-tooltip">Number of back-and-forth exchanges in autonomous mode. More rounds = deeper exploration.</div>
-                        </div>
-                    </label>
+                    <label class="form-label">Rounds (Autonomous Mode)</label>
                     <input id="rounds-input" type="number" value="5" min="1" max="25" class="form-input" placeholder="Enter 1-25 rounds">
                 </div>
                 <div class="form-group">
@@ -1174,11 +1200,7 @@
             </div>
 
             <div class="form-group">
-                <label class="form-label">Interject with custom message or guidance...
-                    <div class="help-icon">i
-                        <div class="help-tooltip">Add your own guidance during conversations. Perfect for steering discussions or asking follow-up questions. Use voice input for hands-free operation!</div>
-                    </div>
-                </label>
+                <label class="form-label">Interject with custom message or guidance...</label>
                 <div class="prompt-input-container">
                     <textarea id="human-input" class="form-input form-textarea" style="height: 80px;" placeholder="Add guidance or instructions for the agents..."></textarea>
                     <button id="voice-human-btn" class="voice-btn" title="Voice Input">
@@ -1199,8 +1221,25 @@
                         Agent A
                     </div>
                     <div class="agent-status" id="agent-a-status">Ready</div>
-                    <div class="help-icon">i
-                        <div class="help-tooltip">Primary AI agent. Choose from 11 different AI models, each with unique strengths and capabilities.</div>
+                    <div class="section-help">
+                        <div class="help-button" onclick="toggleHelp('agent-a-help')">
+                            <i class="fas fa-question"></i>
+                        </div>
+                        <div id="agent-a-help" class="help-panel">
+                            <h3>Agent A Guide</h3>
+                            <div class="help-item">
+                                <div class="help-item-title">AI Model Selection</div>
+                                <div class="help-item-desc">Choose from 11 different AI models, each with unique strengths and capabilities.</div>
+                            </div>
+                            <div class="help-item">
+                                <div class="help-item-title">Agent Toolbar</div>
+                                <div class="help-item-desc">Reset, refresh, copy, edit, download responses, and access agent settings.</div>
+                            </div>
+                            <div class="help-item">
+                                <div class="help-item-title">Status Indicators</div>
+                                <div class="help-item-desc">Monitor agent status: Ready, Thinking, or Error states with visual feedback.</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group">
@@ -1221,22 +1260,22 @@
                 </div>
 
                 <div class="agent-toolbar" style="display: flex; gap: 8px; margin-bottom: 16px;">
-                    <button class="toolbar-btn" title="Home" onclick="resetAgent('a')">
+                    <button class="toolbar-btn" title="Reset Agent A" onclick="resetAgent('a')">
                         <i class="fas fa-home"></i>
                     </button>
-                    <button class="toolbar-btn" title="Refresh" onclick="refreshAgent('a')">
+                    <button class="toolbar-btn" title="Refresh Agent A" onclick="refreshAgent('a')">
                         <i class="fas fa-redo"></i>
                     </button>
-                    <button class="toolbar-btn" title="Copy" onclick="copyResponse('a')">
+                    <button class="toolbar-btn" title="Copy Response" onclick="copyResponse('a')">
                         <i class="fas fa-copy"></i>
                     </button>
-                    <button class="toolbar-btn" title="Edit" onclick="editResponse('a')">
+                    <button class="toolbar-btn" title="Edit Response" onclick="editResponse('a')">
                         <i class="fas fa-edit"></i>
                     </button>
-                    <button class="toolbar-btn" title="Download" onclick="downloadResponse('a')">
+                    <button class="toolbar-btn" title="Download Response" onclick="downloadResponse('a')">
                         <i class="fas fa-download"></i>
                     </button>
-                    <button class="toolbar-btn" title="Settings" onclick="showSettings('a')">
+                    <button class="toolbar-btn" title="Agent Settings" onclick="showSettings('a')">
                         <i class="fas fa-cog"></i>
                     </button>
                 </div>
@@ -1257,8 +1296,25 @@
                         Agent B
                     </div>
                     <div class="agent-status" id="agent-b-status">Ready</div>
-                    <div class="help-icon">i
-                        <div class="help-tooltip">Secondary AI agent. Creates dynamic conversations by pairing different AI models with unique perspectives.</div>
+                    <div class="section-help">
+                        <div class="help-button" onclick="toggleHelp('agent-b-help')">
+                            <i class="fas fa-question"></i>
+                        </div>
+                        <div id="agent-b-help" class="help-panel">
+                            <h3>Agent B Guide</h3>
+                            <div class="help-item">
+                                <div class="help-item-title">AI Model Selection</div>
+                                <div class="help-item-desc">Choose from 11 different AI models to create dynamic conversations with unique perspectives.</div>
+                            </div>
+                            <div class="help-item">
+                                <div class="help-item-title">Agent Toolbar</div>
+                                <div class="help-item-desc">Reset, refresh, copy, edit, download responses, and access agent settings.</div>
+                            </div>
+                            <div class="help-item">
+                                <div class="help-item-title">Collaboration</div>
+                                <div class="help-item-desc">Creates dynamic conversations by pairing different AI models with unique perspectives.</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 
@@ -1280,22 +1336,22 @@
                 </div>
 
                 <div class="agent-toolbar" style="display: flex; gap: 8px; margin-bottom: 16px;">
-                    <button class="toolbar-btn" title="Home" onclick="resetAgent('b')">
+                    <button class="toolbar-btn" title="Reset Agent B" onclick="resetAgent('b')">
                         <i class="fas fa-home"></i>
                     </button>
-                    <button class="toolbar-btn" title="Refresh" onclick="refreshAgent('b')">
+                    <button class="toolbar-btn" title="Refresh Agent B" onclick="refreshAgent('b')">
                         <i class="fas fa-redo"></i>
                     </button>
-                    <button class="toolbar-btn" title="Copy" onclick="copyResponse('b')">
+                    <button class="toolbar-btn" title="Copy Response" onclick="copyResponse('b')">
                         <i class="fas fa-copy"></i>
                     </button>
-                    <button class="toolbar-btn" title="Edit" onclick="editResponse('b')">
+                    <button class="toolbar-btn" title="Edit Response" onclick="editResponse('b')">
                         <i class="fas fa-edit"></i>
                     </button>
-                    <button class="toolbar-btn" title="Download" onclick="downloadResponse('b')">
+                    <button class="toolbar-btn" title="Download Response" onclick="downloadResponse('b')">
                         <i class="fas fa-download"></i>
                     </button>
-                    <button class="toolbar-btn" title="Settings" onclick="showSettings('b')">
+                    <button class="toolbar-btn" title="Agent Settings" onclick="showSettings('b')">
                         <i class="fas fa-cog"></i>
                     </button>
                 </div>
@@ -1312,10 +1368,29 @@
 
         <section class="card">
             <div class="card-header">
-                <i class="fas fa-comments card-icon"></i>
-                <h2 class="card-title">Live Conversation</h2>
-                <div class="help-icon">i
-                    <div class="help-tooltip">Real-time multi-agent conversation display. All responses appear here with beautiful formatting and professional presentation.</div>
+                <div class="card-title-section">
+                    <i class="fas fa-comments card-icon"></i>
+                    <h2 class="card-title">Live Conversation</h2>
+                </div>
+                <div class="section-help">
+                    <div class="help-button" onclick="toggleHelp('conversation-help')">
+                        <i class="fas fa-question"></i>
+                    </div>
+                    <div id="conversation-help" class="help-panel">
+                        <h3>Live Conversation Guide</h3>
+                        <div class="help-item">
+                            <div class="help-item-title">Real-time Display</div>
+                            <div class="help-item-desc">All agent responses and conversations appear here in real-time with beautiful formatting.</div>
+                        </div>
+                        <div class="help-item">
+                            <div class="help-item-title">Message Types</div>
+                            <div class="help-item-desc">Different colors for Agent A, Agent B, Human, and System messages for easy tracking.</div>
+                        </div>
+                        <div class="help-item">
+                            <div class="help-item-title">Professional Presentation</div>
+                            <div class="help-item-desc">Markdown formatting, timestamps, and smooth animations enhance readability.</div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="conversation-area" id="live-conversation">
@@ -1329,10 +1404,29 @@
 
         <section class="card">
             <div class="card-header">
-                <i class="fas fa-memory card-icon"></i>
-                <h2 class="card-title">Session Memory</h2>
-                <div class="help-icon">i
-                    <div class="help-tooltip">Export conversations in multiple formats or upload previous sessions to continue where you left off.</div>
+                <div class="card-title-section">
+                    <i class="fas fa-memory card-icon"></i>
+                    <h2 class="card-title">Session Memory</h2>
+                </div>
+                <div class="section-help">
+                    <div class="help-button" onclick="toggleHelp('memory-help')">
+                        <i class="fas fa-question"></i>
+                    </div>
+                    <div id="memory-help" class="help-panel">
+                        <h3>Session Memory Guide</h3>
+                        <div class="help-item">
+                            <div class="help-item-title">Export Options</div>
+                            <div class="help-item-desc">Download conversations as PDF, JSON, or TXT files for sharing and archiving.</div>
+                        </div>
+                        <div class="help-item">
+                            <div class="help-item-title">Session Upload</div>
+                            <div class="help-item-desc">Load previously saved sessions to continue conversations where you left off.</div>
+                        </div>
+                        <div class="help-item">
+                            <div class="help-item-title">Memory Management</div>
+                            <div class="help-item-desc">Clear session memory while keeping current agents and settings intact.</div>
+                        </div>
+                    </div>
                 </div>
             </div>
             
@@ -1340,37 +1434,22 @@
                 <button id="export-pdf" class="btn btn-primary">
                     <i class="fas fa-file-pdf"></i>
                     Export PDF
-                    <div class="help-icon">i
-                        <div class="help-tooltip">Download conversation as a professionally formatted PDF document.</div>
-                    </div>
                 </button>
                 <button id="export-json" class="btn btn-secondary">
                     <i class="fas fa-file-code"></i>
                     Export JSON
-                    <div class="help-icon">i
-                        <div class="help-tooltip">Export session data in JSON format for technical analysis or backup.</div>
-                    </div>
                 </button>
                 <button id="export-txt" class="btn btn-secondary">
                     <i class="fas fa-file-alt"></i>
                     Export TXT
-                    <div class="help-icon">i
-                        <div class="help-tooltip">Save conversation as plain text file for easy sharing and reading.</div>
-                    </div>
                 </button>
                 <button id="upload-session" class="btn btn-secondary">
                     <i class="fas fa-upload"></i>
                     Upload Session
-                    <div class="help-icon">i
-                        <div class="help-tooltip">Load a previously saved session to continue the conversation.</div>
-                    </div>
                 </button>
                 <button id="clear-session" class="btn btn-secondary">
                     <i class="fas fa-broom"></i>
                     Clear Session
-                    <div class="help-icon">i
-                        <div class="help-tooltip">Clear session memory but keep current agents and settings.</div>
-                    </div>
                 </button>
             </div>
 
@@ -1385,10 +1464,29 @@
 
         <section class="card">
             <div class="card-header">
-                <i class="fas fa-chart-line card-icon"></i>
-                <h2 class="card-title">Live Diagnostics</h2>
-                <div class="help-icon">i
-                    <div class="help-tooltip">Real-time performance metrics and system status. Monitor session progress, response times, and system health.</div>
+                <div class="card-title-section">
+                    <i class="fas fa-chart-line card-icon"></i>
+                    <h2 class="card-title">Live Diagnostics</h2>
+                </div>
+                <div class="section-help">
+                    <div class="help-button" onclick="toggleHelp('diagnostics-help')">
+                        <i class="fas fa-question"></i>
+                    </div>
+                    <div id="diagnostics-help" class="help-panel">
+                        <h3>Live Diagnostics Guide</h3>
+                        <div class="help-item">
+                            <div class="help-item-title">Performance Metrics</div>
+                            <div class="help-item-desc">Real-time monitoring of session time, message count, rounds, and active agents.</div>
+                        </div>
+                        <div class="help-item">
+                            <div class="help-item-title">System Health</div>
+                            <div class="help-item-desc">Monitor API connectivity, system status, and overall platform health.</div>
+                        </div>
+                        <div class="help-item">
+                            <div class="help-item-title">Session Tracking</div>
+                            <div class="help-item-desc">Track current session ID and monitor conversation progress in real-time.</div>
+                        </div>
+                    </div>
                 </div>
             </div>
             
@@ -1737,6 +1835,29 @@
         // Initialize voice dictation
         const voiceDictation = new VoiceDictation();
 
+        // ======= HELP PANEL SYSTEM =======
+        function toggleHelp(helpId) {
+            // Close all other help panels
+            document.querySelectorAll('.help-panel').forEach(panel => {
+                if (panel.id !== helpId) {
+                    panel.classList.remove('active');
+                }
+            });
+            
+            // Toggle the clicked panel
+            const panel = document.getElementById(helpId);
+            panel.classList.toggle('active');
+        }
+
+        // Close help panels when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.section-help')) {
+                document.querySelectorAll('.help-panel').forEach(panel => {
+                    panel.classList.remove('active');
+                });
+            }
+        });
+
         // ======= EMOJI ENHANCEMENT SYSTEM (UNCHANGED) =======
         function enhanceWithEmojis(htmlOutput, context = "default") {
             const keywordEmojis = {
@@ -1799,7 +1920,7 @@
                         max-height: 400px;
                         overflow-y: auto;
                         color: var(--text-primary);
-                        font-family: 'Inter', sans-serif;
+                        font-family: 'Playfair Display', serif;
                         font-size: 14px;
                         line-height: 1.6;
                     }
@@ -2429,13 +2550,13 @@
                 <head>
                     <title>PromptLink Session Export</title>
                     <style>
-                        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; }
+                        body { font-family: 'Playfair Display', serif; line-height: 1.6; margin: 40px; }
                         .header { border-bottom: 2px solid #00B4D8; padding-bottom: 20px; margin-bottom: 30px; }
                         .session-info { background: #f5f5f5; padding: 15px; border-radius: 8px; margin-bottom: 20px; }
                         .message { margin-bottom: 20px; padding: 15px; border-left: 4px solid #ddd; }
                         .agent-a { border-left-color: #00B4D8; background: #f0f9ff; }
                         .agent-b { border-left-color: #00D4C7; background: #f0fdfa; }
-                        .human { border-left-color: #FFB74D; background: #fffbf0; }
+                        .human { border-left-color: #64748b; background: #f8fafc; }
                         .system { border-left-color: #64748b; background: #f8fafc; }
                         .sender { font-weight: bold; color: #333; margin-bottom: 8px; }
                         .content { color: #555; }
@@ -2589,7 +2710,7 @@ Total messages: ${messageCount}
             }
         }
 
-        console.log('🚀 PromptLink Enhanced - All systems initialized with voice dictation and improved UX!');
+        console.log('🚀 PromptLink Enhanced - Clean design with section-based help system!');
     </script>
 </body>
 </html>
