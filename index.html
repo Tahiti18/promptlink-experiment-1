@@ -1257,8 +1257,6 @@ Copy    <script>
 
         // ======= FIXED MESSAGE EXTRACTION =======
         function extractResponseText(data) {
-    // Always show something on your website, inside Live Conversation
-    addMessageToConversation('system', 'Debug', 'Function called. Raw: ' + JSON.stringify(data));
     if (data.responses) {
         const responses = Object.values(data.responses);
         if (responses.length > 0 && responses[0].response) {
