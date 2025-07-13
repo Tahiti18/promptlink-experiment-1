@@ -1023,27 +1023,27 @@ Copy    <script>
             "grok": {
                 name: "Grok Beta",
                 endpoint: "api/chat",
-                model: "x-ai/grok-3-beta"
+                model: "x-ai/grok-beta"
             },
             "opus": {
                 name: "Claude Opus",
                 endpoint: "api/chat",
-                model: "anthropic/claude-opus-4"
+                model: "anthropic/claude-3-opus-20240229"
             },
             "gemini": {
                 name: "Gemini 2.0 Flash",
                 endpoint: "api/chat",
-                model: "google/gemini-2.5-flash"
+                model: "google/gemini-2-0-flash-exp"
             },
             "deepseek-free": {
                 name: "DeepSeek Free",
                 endpoint: "api/chat",
-                model: "deepseek/deepseek-chat-v3-0324:free"
+                model: "deepseek/deepseek-chat"
             },
             "perplexity": {
                 name: "Perplexity Pro",
                 endpoint: "api/chat",
-                model: "perplexity/sonar-pro"
+                model: "perplexity/llama-3.1-sonar-huge-128k-online"
             },
       "qwen": {
          name: "Qwen 2.5 Coder",
@@ -1257,184 +1257,26 @@ Copy    <script>
 
         // ======= FIXED MESSAGE EXTRACTION =======
         function extractResponseText(data) {
-            // Debug: Always show the raw response structure
-            console.log('Raw API Response:', JSON.stringify(data, null, 2));
-            
-            // Handle null or undefined
-            if (!data) {
-                return "No response received.";
-            }
-            
-            // Handle string responses directly
-            if (typeof data === 'string') {
-                return data;
-            }
-            
-            // Handle OpenRouter standard format: data.choices[0].message.content
-            if (data.choices && Array.isArray(data.choices) && data.choices.length > 0) {
-                const choice = data.choices[0];
-                if (choice.message && choice.message.content) {
-                    return choice.message.content;
-                }
-                if (choice.text) {
-                    return choice.text;
-                }
-            }
-            
-            // Handle custom backend format: data.responses (FIXED for ["metadata","responses","success"])
-            if (data.responses) {
-                console.log('Found responses field:', data.responses);
-                
-                // Handle responses as object with agent keys
-                if (typeof data.responses === 'object' && !Array.isArray(data.responses)) {
-                    const responseKeys = Object.keys(data.responses);
-                    console.log('Response keys (agent names):', responseKeys);
-                    
-                    if (responseKeys.length > 0) {
-                        // Get the first agent's response (usually there's only one)
-                        const agentName = responseKeys[0];
-                        const agentResponse = data.responses[agentName];
-                        console.log(`Agent ${agentName} response:`, agentResponse);
-                        
-                        // If the agent response is a string, return it directly
-                        if (typeof agentResponse === 'string') {
-                            return agentResponse;
-                        }
-                        if (agentResponse && typeof agentResponse === 'object') {
-                            // Recursive function to find any text content in nested objects
-                            function findTextContent(obj, depth = 0) {
-                                if (depth > 5) return null; // Prevent infinite recursion
-                                
-                                if (typeof obj === 'string' && obj.trim().length > 0) {
-                                    return obj.trim();
-                                }
-                                
-                                if (typeof obj !== 'object' || obj === null) {
-                                    return null;
-                                }
-                                
-                                // Try common content fields first
-                                const contentFields = ['content', 'message', 'text', 'response', 'output', 'result', 'data'];
-                                for (const field of contentFields) {
-                                    if (obj[field]) {
-                                        const result = findTextContent(obj[field], depth + 1);
-                                        if (result) return result;
-                                    }
-                                }
-                                
-                                // Try OpenRouter choices format
-                                if (obj.choices && Array.isArray(obj.choices) && obj.choices.length > 0) {
-                                    const choice = obj.choices[0];
-                                    if (choice.message && choice.message.content) {
-                                        return choice.message.content;
-                                    }
-                                    if (choice.text) {
-                                        return choice.text;
-                                    }
-                                }
-                                
-                                // Search through all object values
-                                for (const value of Object.values(obj)) {
-                                    const result = findTextContent(value, depth + 1);
-                                    if (result) return result;
-                                }
-                                
-                                return null;
-                            }
-                            
-                            const extractedContent = findTextContent(agentResponse);
-                            if (extractedContent) {
-                                return extractedContent;
-                            }
-                        }   // Handle responses as array
-                if (Array.isArray(data.responses) && data.responses.length > 0) {
-                    const firstResponse = data.responses[0];
-                    if (typeof firstResponse === 'string') {
-                        return firstResponse;
-                    }
-                    if (firstResponse && typeof firstResponse === 'object') {
-                        if (firstResponse.response) return firstResponse.response;
-                        if (firstResponse.content) return firstResponse.content;
-                        if (firstResponse.message) return firstResponse.message;
-                        if (firstResponse.text) return firstResponse.text;
-                    }
-                }
-            }
-            
-            // Handle content array format (some models)
-            if (data.content && Array.isArray(data.content) && data.content.length > 0) {
-                if (data.content[0].text) {
-                    return data.content[0].text;
-                }
-                if (typeof data.content[0] === 'string') {
-                    return data.content[0];
-                }
-            }
-            
-            // Handle direct response field
-            if (data.response) {
-                return data.response;
-            }
-            
-            // Handle direct message field
-            if (data.message) {
-                if (typeof data.message === 'string') {
-                    return data.message;
-                }
-                if (data.message.content) {
-                    return data.message.content;
-                }
-            }
-            
-            // Handle text field directly
-            if (data.text) {
-                return data.text;
-            }
-            
-            // Handle data field (some APIs wrap response in data)
-            if (data.data) {
-                return extractResponseText(data.data); // Recursive call
-            }
-            
-            // Handle result field
-            if (data.result) {
-                if (typeof data.result === 'string') {
-                    return data.result;
-                }
-                return extractResponseText(data.result); // Recursive call
-            }
-            
-            // Handle output field
-            if (data.output) {
-                if (typeof data.output === 'string') {
-                    return data.output;
-                }
-                return extractResponseText(data.output); // Recursive call
-            }
-            
-            // Handle completion field (some OpenAI-compatible APIs)
-            if (data.completion) {
-                return data.completion;
-            }
-            
-            // Handle generated_text field (some Hugging Face models)
-            if (data.generated_text) {
-                return data.generated_text;
-            }
-            
-            // Last resort: try to find any string value in the object
-            if (typeof data === 'object') {
-                const stringValues = Object.values(data).filter(value => typeof value === 'string' && value.length > 0);
-                if (stringValues.length > 0) {
-                    return stringValues[0];
-                }
-            }
-            
-            // Enhanced error message with more details
-            const availableKeys = Object.keys(data);
-            const responseStructure = data.responses ? Object.keys(data.responses) : 'N/A';
-            return `Response received but format not recognized. Available keys: [${availableKeys.join(', ')}]. Responses structure: [${responseStructure}]. Raw: ${JSON.stringify(data).substring(0, 200)}...`;
+    // Always show something on your website, inside Live Conversation
+    addMessageToConversation('system', 'Debug', 'Function called. Raw: ' + JSON.stringify(data));
+    if (data.responses) {
+        const responses = Object.values(data.responses);
+        if (responses.length > 0 && responses[0].response) {
+            return responses[0].response;
         }
+    }
+    if (data.content && Array.isArray(data.content) && data.content[0]?.text) {
+        return data.content[0].text;
+    } else if (data.response) {
+        return data.response;
+    } else if (data.message) {
+        return data.message;
+    } else if (typeof data === 'string') {
+        return data;
+    } else {
+        return "Response received but format not recognized.";
+    }
+}
 
     </script>
 
