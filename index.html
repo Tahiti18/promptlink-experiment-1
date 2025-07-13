@@ -1287,12 +1287,14 @@ Copy    <script>
                 
                 // Handle responses as object with agent keys
                 if (typeof data.responses === 'object' && !Array.isArray(data.responses)) {
-                    const responseValues = Object.values(data.responses);
-                    console.log('Response values:', responseValues);
+                    const responseKeys = Object.keys(data.responses);
+                    console.log('Response keys (agent names):', responseKeys);
                     
-                    if (responseValues.length > 0) {
-                        const firstResponse = responseValues[0];
-                        console.log('First response:', firstResponse);
+                    if (responseKeys.length > 0) {
+                        // Get the first agent's response (usually there's only one)
+                        const agentName = responseKeys[0];
+                        const firstResponse = data.responses[agentName];
+                        console.log(`Agent ${agentName} response:`, firstResponse);
                         
                         // Check if response has nested structure
                         if (firstResponse && typeof firstResponse === 'object') {
