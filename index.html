@@ -2029,13 +2029,14 @@
                 
                 return responseText;
             } catch (error) {
-                console.error(`Agent ${agentLetter} error:`, error);
-                const errorMsg = `Error: ${error.message}`;
-                updateAgentResponse(agentLetter, errorMsg);
-                addMessageToConversation('system', `Agent ${agentLetter.toUpperCase()} Error`, errorMsg);
-                updateAgentStatus(agentLetter, 'error');
-                throw error;
-            }
+              console.error(`Agent ${agentLetter} error:`, error);
+              addMessageToConversation('system', `Agent ${agentLetter.toUpperCase()} RAW ERROR`, JSON.stringify(error, null, 2));
+              const errorMsg = `Error: ${error.message}`;
+              updateAgentResponse(agentLetter, errorMsg);
+              addMessageToConversation('system', `Agent ${agentLetter.toUpperCase()} Error`, errorMsg);
+              updateAgentStatus(agentLetter, 'error');
+              throw error;
+          }
         }
 
         // ======= MESSAGE EXTRACTION (UNCHANGED) =======
